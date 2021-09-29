@@ -444,6 +444,13 @@ class Auth {
 	 */
 	public function determine_current_user( $user_id ) {
 		/**
+		 * adds a bypass for logged in users in admin accessing through nonce
+		 */
+		if( isset( $_SERVER['HTTP_X_WP_NONCE'] ) ) {
+			return $user_id;
+		}
+
+		/**
 		 * This hook only should run on the REST API requests to determine
 		 * if the user in the Token (if any) is valid, for any other
 		 * normal call ex. wp-admin/.* return the user.
